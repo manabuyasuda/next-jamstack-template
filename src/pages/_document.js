@@ -8,13 +8,15 @@ class MyDocument extends Document {
       <Html lang={site.lang}>
         <Head>
           {/* gtag / Google Analytics */}
-          {
-            GOOGLE_ANALYTICS_ID && (
-              <>
-                <script async src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`} />
-                <script
-                  dangerouslySetInnerHTML={{
-                    __html: `
+          {GOOGLE_ANALYTICS_ID && (
+            <>
+              <script
+                async
+                src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}
+              />
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: `
                       window.dataLayer = window.dataLayer || [];
                       function gtag(){dataLayer.push(arguments);}
                       gtag('js', new Date());
@@ -22,11 +24,10 @@ class MyDocument extends Document {
                         page_path: window.location.pathname,
                       });
                     `,
-                  }}
-                />
-              </>
-            )
-          }
+                }}
+              />
+            </>
+          )}
         </Head>
         <body>
           <Main />

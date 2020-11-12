@@ -9,7 +9,7 @@ import siteConfig from 'site.config'
  * createNumberedArray(3); // [1, 2, 3]
  */
 const createNumberedArray = (num) => {
-  return [...Array(num)].map((_, i) => i + 1);
+  return [...Array(num)].map((_, i) => i + 1)
 }
 
 /**
@@ -22,11 +22,11 @@ const yearsArray = () => {
   const thisDate = new Date()
   const thisYear = thisDate.getFullYear()
   const startYear = Number(siteConfig.startYear)
-  const calculateYear = (thisYear - startYear -1)
+  const calculateYear = thisYear - startYear - 1
   const additionalYears = calculateYear >= 1 ? calculateYear : 0
-  const additionalYearsNumber = createNumberedArray(additionalYears);
+  const additionalYearsNumber = createNumberedArray(additionalYears)
   const calculateAdditionalYears = additionalYearsNumber.reduce((result, current, index) => {
-    result[index] = String((thisYear - current))
+    result[index] = String(thisYear - current)
     return result
   }, [])
   const result = [String(thisYear)].concat(calculateAdditionalYears, [startYear])
