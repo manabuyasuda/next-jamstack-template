@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "export": "yarn run build && next export",
     "lint": "eslint src/**/*.js --fix",
     "stylelint": "stylelint ./**/*.{css,scss,ts,tsx,js,jsx} --fix",
     "lints": "yarn run lint && yarn run stylelint",
