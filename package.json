@@ -5,12 +5,37 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint src/**/*.js --fix",
+    "stylelint": "stylelint ./**/*.{css,scss,ts,tsx,js,jsx} --fix",
+    "lints": "yarn run lint && yarn run stylelint",
+    "lintConfig": "eslint *.js --fix"
   },
   "dependencies": {
     "next": "10.0.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "sass": "^1.29.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn run lints"
+    }
+  },
+  "devDependencies": {
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^4.3.0",
+    "prettier": "^2.1.2",
+    "stylelint": "^13.7.2",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-recess-order": "^2.3.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-prettier": "^1.1.2",
+    "stylelint-scss": "^3.18.0"
   }
 }
