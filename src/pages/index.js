@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Layout from '@components/Layout/Layout'
+import { formatNewsDate } from '@lib/date'
 
 const thisYear = new Date().getFullYear()
 
@@ -16,7 +17,7 @@ export default function Home(props) {
                 <Link href="/news/[id]" as={`/news/${post.id}`}>
                   <a>
                     <h2>{post.title}</h2>
-                    <p>{post.publishedAt}</p>
+                    <p>{formatNewsDate(post.publishedAt)}</p>
                     {post.tag.length ? (
                       <ul>
                         {post.tag.map((tag) => (

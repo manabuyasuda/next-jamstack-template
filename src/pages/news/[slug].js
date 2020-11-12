@@ -1,6 +1,7 @@
 import Layout from "@components/Layout/Layout"
 import NewsNav from '@components/NewsNav/NewsNav'
 import { yearsArray } from '@lib/years'
+import { formatNewsDate } from '@lib/date'
 
 const years = yearsArray();
 
@@ -8,7 +9,7 @@ export default function News({post}) {
   return (
     <Layout title={post.title} description={post.description} url={`/news/${post.id}`}>
       <div>
-        <span>{post.publishedAt}</span>
+        <span>{formatNewsDate(post.publishedAt)}</span>
       </div>
       <div
         dangerouslySetInnerHTML={{ __html: post.body }}
@@ -53,7 +54,7 @@ export const getStaticPaths = async () => {
   const paths = repos.contents.map(repo => `/news/${repo.id}`)
 
   return {
-    paths, 
+    paths,
     fallback: false
   }
 };

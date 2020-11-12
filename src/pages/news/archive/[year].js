@@ -2,6 +2,7 @@ import Link from "next/link"
 import Layout from "@components/Layout/Layout"
 import NewsNav from '@components/NewsNav/NewsNav'
 import { yearsArray } from '@lib/years'
+import { formatNewsArchiveDate } from '@lib/date'
 
 const years = yearsArray();
 
@@ -14,7 +15,7 @@ export default function NewsArchive(props) {
         key={post.id}
       >
         <h2><Link href="/news/[id]" as={`/news/${post.id}`}><a>{post.title}</a></Link></h2>
-        <div>{post.year}/{post.day}</div>
+        <div>{formatNewsArchiveDate(post)}</div>
         <div dangerouslySetInnerHTML={{ __html: post.description }}
         />
       </div>)}
