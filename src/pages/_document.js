@@ -1,10 +1,11 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import site from 'site.config'
 import { GOOGLE_ANALYTICS_ID } from '@lib/gtag'
 
 class MyDocument extends Document {
   render() {
     return (
-      <Html>
+      <Html lang={site.lang}>
         <Head>
           {/* gtag / Google Analytics */}
           {

@@ -1,65 +1,59 @@
-import Head from 'next/head'
-import styles from '@styles/Home.module.scss'
+import Link from "next/link"
+import Layout from '@components/Layout/Layout'
 
-export default function Home() {
+const thisYear = new Date().getFullYear()
+
+export default function Home(props) {
+  const { posts, hasNews } = props
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+    <Layout url="/">
+      {hasNews ? (
+        <div id="news">
+          <ol>
+            {posts.map((post) => <li key={post.id}>
+              <Link href="/news/[id]" as={`/news/${post.id}`}>
+                <a>
+                  <h2>{post.title}</h2>
+                  <p>{post.publishedAt}</p>
+                  {post.tag.length ? (
+                    <ul>
+                      {post.tag.map(tag => (
+                        <li key={`${post.id}${tag.id}`}>{tag.name}</li>
+                      ))}
+                    </ul>
+                  ) : ``}
+                </a>
+              </Link>
+            </li>
+            )}
+          </ol>
+          <div>
+            <Link href="/news/archive/[page]" as={`/news/archive/${thisYear}/`}><a>Newsをすべて見る</a></Link>
+          </div>
         </div>
-      </main>
+      ): ''}
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+    </Layout>
   )
+}
+
+export async function getStaticProps() {
+  const MAX_COUNT = 2
+  const key = {
+    headers: {'X-API-KEY': process.env.CMC_API_KEY},
+  }
+  const res = await fetch(
+    `${process.env.CMS_ROOT_ENDPOINT}news`,
+    key,
+  )
+  const data = await res.json()
+  const hasNews = data.contents.length > MAX_COUNT
+
+  return {
+    props: {
+      posts: data.contents.slice(0, MAX_COUNT),
+      hasNews,
+    }
+  }
 }
