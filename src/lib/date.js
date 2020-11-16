@@ -21,7 +21,7 @@ const formatNewsDate = (date) => {
  * @param {Object} post
  */
 const formatNewsArchiveDate = (post) => {
-  const date = `${post.year}/${post.month}/${post.day}`
+  const date = `${post.publishedYear}/${post.publishedMonth}/${post.publishedDay}`
   return baseFormatDate(date)
 }
 

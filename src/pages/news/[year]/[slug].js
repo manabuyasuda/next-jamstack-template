@@ -1,5 +1,6 @@
 import Layout from "@components/Layout/"
 import NewsNav from '@components/NewsNav/'
+import { getYear } from 'date-fns'
 import { yearsArray } from '@lib/years'
 import { formatNewsDate } from '@lib/date'
 
@@ -7,9 +8,12 @@ const years = yearsArray();
 
 export default function News({post}) {
   return (
-    <Layout title={post.title} description={post.description} url={`/news/${post.id}`}>
+    <Layout title={post.title} description={post.description} url={`/news/${post.publishedYear}/${post.id}`}>
       <div>
         <span>{formatNewsDate(post.publishedAt)}</span>
+      </div>
+      <div>
+        <span>{`/news/${post.publishedYear}/${post.id}`}</span>
       </div>
       <div
         dangerouslySetInnerHTML={{ __html: post.body }}
@@ -24,7 +28,6 @@ export default function News({post}) {
  * ページコンポーネントで使用する値を用意する
  */
 export const getStaticProps = async context => {
-  // `posts/[slug].js`
   const slug = context.params.slug
   const key = {
     headers: {'X-API-KEY': process.env.CMC_API_KEY},
@@ -49,9 +52,12 @@ export const getStaticPaths = async () => {
   const key = {
     headers: {'X-API-KEY': process.env.CMC_API_KEY},
   }
-  const res = await fetch(`${process.env.CMS_ROOT_ENDPOINT}news`, key)
-  const repos = await res.json()
-  const paths = repos.contents.map(repo => `/news/${repo.id}`)
+  const newsData = await fetch(`${process.env.CMS_ROOT_ENDPOINT}news`, key)
+  const newsJson = await newsData.json()
+  const paths = newsJson.contents.map(news => {
+    const publishedYear = getYear(new Date(news.publishedYear))
+    return `/news/${publishedYear}/${news.id}`
+  })
 
   return {
     paths,

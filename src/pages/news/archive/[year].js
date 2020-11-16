@@ -14,8 +14,11 @@ export default function NewsArchive(props) {
       {posts.map((post) => <div
         key={post.id}
       >
-        <h2><Link href="/news/[id]" as={`/news/${post.id}`}><a>{post.title}</a></Link></h2>
+        <h2><Link href="/news/[year]/[id]" as={`/news/${post.publishedYear}/${post.id}`}><a>{post.title}</a></Link></h2>
         <div>{formatNewsArchiveDate(post)}</div>
+        <div>
+          <span>{`/news/${post.publishedYear}/${post.id}`}</span>
+        </div>
         <div dangerouslySetInnerHTML={{ __html: post.description }}
         />
       </div>)}
@@ -41,7 +44,7 @@ export async function getStaticProps({ params }) {
   const posts = await res.json()
 
   const contents = posts.contents.filter(post => {
-    return post.year === year
+    return post.publishedYear === year
   });
 
   return {

@@ -5,23 +5,24 @@ import { formatNewsDate } from '@lib/date'
 const thisYear = new Date().getFullYear()
 
 export default function Home(props) {
-  const { posts, hasNews } = props
+  const { newsList, hasNews } = props
 
   return (
     <Layout url="/">
       {hasNews ? (
         <div id="news">
           <ol>
-            {posts.map((post) => (
-              <li key={post.id}>
-                <Link href="/news/[id]" as={`/news/${post.id}`}>
+            {newsList.map((news) => (
+              <li key={news.id}>
+                <Link href="/news/[year]/[id]" as={`/news/${news.publishedYear}/${news.id}`}>
                   <a>
-                    <h2>{post.title}</h2>
-                    <p>{formatNewsDate(post.publishedAt)}</p>
-                    {post.tag.length ? (
+                    <h2>{news.title}</h2>
+                    <p>{formatNewsDate(news.publishedAt)}</p>
+                    <p>{`/news/${news.publishedYear}/${news.id}`}</p>
+                    {news.tag.length ? (
                       <ul>
-                        {post.tag.map((tag) => (
-                          <li key={`${post.id}${tag.id}`}>{tag.name}</li>
+                        {news.tag.map((tag) => (
+                          <li key={`${news.id}${tag.id}`}>{tag.name}</li>
                         ))}
                       </ul>
                     ) : (
@@ -50,13 +51,13 @@ export async function getStaticProps() {
   const key = {
     headers: { 'X-API-KEY': process.env.CMC_API_KEY },
   }
-  const res = await fetch(`${process.env.CMS_ROOT_ENDPOINT}news`, key)
-  const data = await res.json()
-  const hasNews = data.contents.length > MAX_COUNT
+  const newsData = await fetch(`${process.env.CMS_ROOT_ENDPOINT}news`, key)
+  const newsJson = await newsData.json()
+  const hasNews = newsJson.contents.length > MAX_COUNT
 
   return {
     props: {
-      posts: data.contents.slice(0, MAX_COUNT),
+      newsList: newsJson.contents.slice(0, MAX_COUNT),
       hasNews,
     },
   }
