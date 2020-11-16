@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Layout from '@components/Layout/Layout'
+import Layout from '@components/Layout/'
 import { formatNewsDate } from '@lib/date'
 
 const thisYear = new Date().getFullYear()

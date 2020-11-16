@@ -1,6 +1,6 @@
 import Link from "next/link"
-import Layout from "@components/Layout/Layout"
-import NewsNav from '@components/NewsNav/NewsNav'
+import Layout from "@components/Layout/"
+import NewsNav from '@components/NewsNav/'
 import { yearsArray } from '@lib/years'
 import { formatNewsArchiveDate } from '@lib/date'
 
