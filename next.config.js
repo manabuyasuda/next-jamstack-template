@@ -1,5 +1,5 @@
 const path = require('path')
-const withPlugins = require('next-compose-plugins')
+// const withPlugins = require('next-compose-plugins')
 
 const nextConfig = {
   webpack: (config) => {
@@ -14,7 +14,8 @@ const nextConfig = {
   },
 }
 
-module.exports = withPlugins(
-  [],
-  nextConfig
-)
+module.exports = nextConfig
+// module.exports = withPlugins(
+//   [],
+//   nextConfig
+// )
