@@ -2,6 +2,8 @@ const path = require('path')
 // const withPlugins = require('next-compose-plugins')
 
 const nextConfig = {
+  trailingSlash: true,
+
   webpack: (config) => {
     config.resolve.alias['~'] = path.resolve(__dirname)
     config.resolve.alias['@components'] = path.join(__dirname, 'src/components')
